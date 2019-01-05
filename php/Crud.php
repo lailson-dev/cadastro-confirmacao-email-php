@@ -2,7 +2,7 @@
 
 require_once 'Conexao.php';
 
-abstract class Crud extends Conexao 
+class Crud extends Conexao 
 {
 
     private $nome;
