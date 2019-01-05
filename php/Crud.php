@@ -38,6 +38,15 @@ class Crud extends Conexao
         
         return $stmt->execute();
     }
+
+    public function hasUser($email)
+    {
+        $sql  = 'SELECT * FROM usuarios WHERE email = :email';
+        $stmt = Conexao::prepare($sql);
+        $stmt->bindParam(':email', $email);
+
+        return $stmt->execute();
+    }
     
 
 }
