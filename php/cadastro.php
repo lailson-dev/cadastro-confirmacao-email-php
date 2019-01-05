@@ -17,12 +17,21 @@ if(isset($_POST) && !empty($_POST))
     $crud->setSenha($senha);
     $crud->setStatus(0);
 
-    if($crud->hasUser($email))
+    if($crud->hasUser($email)) {
         echo 'O email informado já está registrado em nosso sistema.';
+    }
     else {
-        if($crud->insert())
-            echo 'Cadastro efetuado com sucesso!';
-        else 
+        if($crud->insert()) {
+            require_once '../PHPMailer/src/PHPMailer.php';
+            require_once '../PHPMailer/src/SMTP.php';
+
+            $id = md5($crud->getId());
+
+            include_once 'email.php';
+
+            echo 'Cadastro efetuado com sucesso!<br>';
+            echo 'Um e-mail de confirmação foi enviado para '.$email.'. Por favor, verifique sua caixa de entrada ou spam.';
+        } else
             echo 'Falha ao registrar!';
     }
 }

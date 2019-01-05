@@ -5,6 +5,7 @@ require_once 'Conexao.php';
 class Crud extends Conexao 
 {
 
+    private $id;
     private $nome;
     private $usuario;
     private $email;
@@ -16,6 +17,7 @@ class Crud extends Conexao
     public function setEmail($email){$this->email = $email;}
     public function setSenha($senha){$this->senha = $senha;}
     public function setStatus($status){$this->status = $status;}
+    public function getId(){return $this->id;}
 
     public function insert()
     {
@@ -26,8 +28,9 @@ class Crud extends Conexao
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':senha', $this->senha);
         $stmt->bindParam(':status', $this->status);
-
+                
         return $stmt->execute();
+        $this->id = $stmt->lastInsertId();
     }
 
     public function update($id)
@@ -44,8 +47,9 @@ class Crud extends Conexao
         $sql  = 'SELECT * FROM usuarios WHERE email = :email';
         $stmt = Conexao::prepare($sql);
         $stmt->bindParam(':email', $email);
+        $stmt->execute();
 
-        return $stmt->execute();
+        return $stmt->fetch();
     }
     
 
