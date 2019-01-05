@@ -17,8 +17,12 @@ if(isset($_POST) && !empty($_POST))
     $crud->setSenha($senha);
     $crud->setStatus(0);
 
-    if($crud->insert())
-        echo 'Cadastro efetuado com sucesso!';
-    else 
-        echo 'Falha ao registrar!';
+    if($crud->hasUser($email))
+        echo 'O email informado já está registrado em nosso sistema.';
+    else {
+        if($crud->insert())
+            echo 'Cadastro efetuado com sucesso!';
+        else 
+            echo 'Falha ao registrar!';
+    }
 }
