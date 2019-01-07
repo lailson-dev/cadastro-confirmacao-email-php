@@ -35,7 +35,7 @@ class Crud extends Conexao
 
     public function update($id)
     {
-        $sql = 'UPDATE usuarios SET status = :status WHERE id = :id';
+        $sql = 'UPDATE usuarios SET status = :status WHERE MD5(id) = :id';
         $stmt = Conexao::prepare($sql);
         $stmt->bindParam(':id', $id);
         
