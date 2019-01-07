@@ -35,9 +35,10 @@ class Crud extends Conexao
 
     public function update($id)
     {
-        $sql = 'UPDATE usuarios SET status = :status WHERE MD5(id) = :id';
+        $sql = 'UPDATE usuarios SET status = :status WHERE MD5(id) = :id AND status = 0';
         $stmt = Conexao::prepare($sql);
         $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':status', $this->status);
         
         return $stmt->execute();
     }
@@ -47,6 +48,26 @@ class Crud extends Conexao
         $sql  = 'SELECT * FROM usuarios WHERE email = :email';
         $stmt = Conexao::prepare($sql);
         $stmt->bindParam(':email', $email);
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+    public function hasID($id)
+    {
+        $sql  = 'SELECT * FROM usuarios WHERE MD5(id) = :id';
+        $stmt = Conexao::prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+    public function confirmed($id)
+    {
+        $sql  = 'SELECT * FROM usuarios WHERE MD5(id) = :id AND status = 1';
+        $stmt = Conexao::prepare($sql);
+        $stmt->bindParam(':id', $id);
         $stmt->execute();
 
         return $stmt->fetch();
