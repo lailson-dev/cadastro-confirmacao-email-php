@@ -53,6 +53,17 @@ class Crud extends Conexao
         return $stmt->fetch();
     }
 
+    public function hasLogin()
+    {
+        $sql  = 'SELECT * FROM usuarios WHERE usuario = :usuario AND senha = :senha AND status = 1';
+        $stmt = Conexao::prepare($sql);
+        $stmt->bindParam(':usuario', $this->usuario);
+        $stmt->bindParam(':senha', $this->senha);
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
     public function hasID($id)
     {
         $sql  = 'SELECT * FROM usuarios WHERE MD5(id) = :id';
